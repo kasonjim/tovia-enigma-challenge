@@ -5,18 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/server.js",
+    "run": "babel client -d compiled --watch | live-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kasonjim/tovia-enigma-challenge.git"
+  "babel": {
+    "presets": ["es2015", "react"]
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kasonjim/tovia-enigma-challenge/issues"
-  },
-  "homepage": "https://github.com/kasonjim/tovia-enigma-challenge#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",

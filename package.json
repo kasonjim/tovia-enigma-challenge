@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "run": "babel client -d compiled --watch | live-server",
+    "local": "babel client -d compiled --watch | live-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {

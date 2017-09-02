@@ -4,10 +4,11 @@ module.exports = {
   entry: './compiled/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
         use: [

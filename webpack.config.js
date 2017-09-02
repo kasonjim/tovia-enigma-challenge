@@ -7,8 +7,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist'
   },
+  resolve: {
+    extensions: [' ', '.scss', '.js', '.jsx', '.json'],
+    modules: ['node_modules']
+  },
   module: {
     rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loaders: 'babel-loader',
+      },
       {
         test: /\.css$/,
         use: [

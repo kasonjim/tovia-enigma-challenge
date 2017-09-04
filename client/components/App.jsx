@@ -11,8 +11,14 @@ export default class App extends React.Component {
     this.state = {
       name: '',
       message: '',
-      date: ''
+      date: '',
+      pvalues: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+      passphrase: '',
     };
+  }
+
+  componentDidMount() {
+    this.generatePassphrase();
   }
 
   inputHandler(type, value) {
@@ -31,9 +37,21 @@ export default class App extends React.Component {
     console.log('decrypt')
   }
 
+  generatePassphrase() {
+    let text = '';
+
+    for (let i = 0; i < 5; i++) {
+      text += this.state.pvalues.charAt(Math.floor(Math.random() * this.state.pvalues.length));
+    }
+
+    this.setState({
+      passphrase: text
+    })
+  }
+
   render() {
     return (
-      <div className="test">
+      <div>
         <Card style={{width: '450px'}}>
           <CardTitle
             title="Tovia's Enigma" />
@@ -62,14 +80,14 @@ export default class App extends React.Component {
           <CardActions>
             <Button
               label="ENCRYPT"
-              onMouseUp={this.encrypt.bind(this)} />
+              onClick={this.encrypt.bind(this)} />
             <Button
               label="DECRYPT"
-              onMouseUp={this.decrypt.bind(this)} />
+              onClick={this.decrypt.bind(this)} />
           </CardActions>
           <CardText>
-            <div>Your Passphrase - <a href="">Some Random String</a></div>
-            <div><a href="">Generate new Passphrase</a></div>
+            <div>Your Passphrase - {this.state.passphrase}</div>
+            <div><a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a></div>
           </CardText>
         </Card>
       </div>

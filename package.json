@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "local": "babel client -d compiled --watch | live-server",
-    "bundle": "webpack --config webpack.config.js --progress",
+    "bundle": "babel client -d compiled | webpack --config webpack.config.js --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {

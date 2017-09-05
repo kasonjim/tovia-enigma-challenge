@@ -5,9 +5,7 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 
-// **TODO** Update form with data received when decrypting (for DATE)
-// **TODO** Encryption: show dialog with encrypted value
-
+// **TODO** Check if expired
 // **TODO** Form validation
 // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
 // **TODO** copy passphrase upon click
@@ -91,7 +89,7 @@ export default class App extends React.Component {
       this.setState({
         name: data.name,
         message: data.message,
-        date: data.date
+        date: new Date(data.date)
       }, () => {
         console.log('current state: ', this.state);
         this.handleToggle();

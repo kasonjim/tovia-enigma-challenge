@@ -1,9 +1,9 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var handler = require('./request-handler.js');
+let express = require('express');
+let bodyParser = require('body-parser');
+let handler = require('./request-handler.js');
 
 // Initialize app
-var app = express();
+let app = express();
 
 // Include body parser
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,9 +13,8 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../'));
 
 // Routes
-// TODO
-// app.get('route', handler.)
-// app.post
+app.post('/api/encrypt/:id', handler.encrypt)
+app.post('/api/decrypt/:id', handler.decrypt)
 
 // Export express server
 module.exports = app;

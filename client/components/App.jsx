@@ -5,10 +5,11 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 
-// **TODO** Form validation
 // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
 // **TODO** copy passphrase upon click
-// **TODO** fix up styling
+
+// **TODO** make sure linter is working
+// **TODO** fix up styling, do we even need our own css? or just use bootstrap?
 // **TODO** separate into smaller components
 
 export default class App extends React.Component {
@@ -22,7 +23,8 @@ export default class App extends React.Component {
       passphrase: '',
       encryptedString: '',
       cryptDialogActive: false,
-      errorDialogActive: false
+      errorDialogActive: false,
+      incompleteDialogActive: false
     };
 
     this.pvalues = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -32,7 +34,10 @@ export default class App extends React.Component {
     ];
     this.errorActions = [
       { label: 'Close', onClick: this.handleErrorDialog.bind(this) }
-    ]
+    ];
+    this.incompleteActions = [
+      { label: 'Close', onClick: this.handleIncompleteDialog.bind(this) }
+    ];
   }
 
   componentDidMount() {
@@ -47,6 +52,10 @@ export default class App extends React.Component {
     this.setState({ errorDialogActive: !this.state.errorDialogActive });
   }
 
+  handleIncompleteDialog() {
+    this.setState({ incompleteDialogActive: !this.state.incompleteDialogActive });
+  }
+
   inputHandler(type, value) {
     this.setState({
       [type]: value
@@ -55,7 +64,20 @@ export default class App extends React.Component {
     })
   }
 
+  formValid() {
+    if (this.state.name && this.state.message && this.state.date) {
+      return true;
+    } else {
+      this.handleIncompleteDialog();
+      return false;
+    }
+  }
+
   encrypt() {
+    if (!this.formValid()) {
+      return;
+    }
+
     fetch('/api/encrypt/' + this.state.passphrase, {
       method: 'POST',
       headers: {
@@ -192,6 +214,15 @@ export default class App extends React.Component {
           onOverlayClick={this.handleErrorDialog.bind(this)}
           actions={this.errorActions}>
           <p>The code you have entered is either invalid or has expired</p>
+        </Dialog>
+
+        <Dialog
+          title="Invalid Form"
+          active={this.state.incompleteDialogActive}
+          onEscKeyDown={this.handleIncompleteDialog.bind(this)}
+          onOverlayClick={this.handleIncompleteDialog.bind(this)}
+          actions={this.incompleteActions}>
+          <p>All fields in the form must be filled out before encrypting.</p>
         </Dialog>
       </div>
     );

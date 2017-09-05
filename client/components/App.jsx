@@ -68,7 +68,7 @@ export default class App extends React.Component {
       this.setState({
         encryptedString: data
       }, () => {
-        // **TODO** Show a pop up with the encrypted string
+        this.handleToggle();
         console.log('current state: ', this.state);
       })
     })

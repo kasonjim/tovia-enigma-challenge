@@ -5,7 +5,6 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 
-// **TODO** Check if expired
 // **TODO** Form validation
 // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
 // **TODO** copy passphrase upon click
@@ -22,29 +21,37 @@ export default class App extends React.Component {
       date: '',
       passphrase: '',
       encryptedString: '',
-      dialogActive: false
+      cryptDialogActive: false,
+      errorDialogActive: false
     };
 
     this.pvalues = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     this.actions = [
-      { label: 'Cancel', onClick: this.handleToggle.bind(this) },
+      { label: 'Cancel', onClick: this.handleCryptionDialog.bind(this) },
       { label: 'Decrypt', onClick: this.decrypt.bind(this) }
     ];
+    this.errorActions = [
+      { label: 'Close', onClick: this.handleErrorDialog.bind(this) }
+    ]
   }
 
   componentDidMount() {
     this.generatePassphrase();
   }
 
-  handleToggle() {
-    this.setState({ dialogActive: !this.state.dialogActive });
+  handleCryptionDialog() {
+    this.setState({ cryptDialogActive: !this.state.cryptDialogActive });
+  }
+
+  handleErrorDialog() {
+    this.setState({ errorDialogActive: !this.state.errorDialogActive });
   }
 
   inputHandler(type, value) {
     this.setState({
       [type]: value
     }, () => {
-      console.log('current state: ', this.state);
+      // console.log('current state: ', this.state);
     })
   }
 
@@ -66,8 +73,8 @@ export default class App extends React.Component {
       this.setState({
         encryptedString: data
       }, () => {
-        this.handleToggle();
-        console.log('current state: ', this.state);
+        this.handleCryptionDialog();
+        // console.log('current state: ', this.state);
       })
     })
     .catch( err => console.log('Encrypt error: ', err))
@@ -86,14 +93,22 @@ export default class App extends React.Component {
     })
     .then( (res) => res.json() )
     .then( (data) => {
-      this.setState({
-        name: data.name,
-        message: data.message,
-        date: new Date(data.date)
-      }, () => {
-        console.log('current state: ', this.state);
-        this.handleToggle();
-      })
+      let today = Date.now().valueOf();
+      let expire = (new Date(data.date)).valueOf();
+
+      if (today < expire) {
+        this.setState({
+          name: data.name,
+          message: data.message,
+          date: new Date(data.date)
+        }, () => {
+          // console.log('current state: ', this.state);
+          this.handleCryptionDialog();
+        })
+      } else {
+        this.handleCryptionDialog();
+        this.handleErrorDialog();
+      }
     })
     .catch( err => console.log('Decrypt error: ', err))
   }
@@ -148,7 +163,7 @@ export default class App extends React.Component {
               onClick={this.encrypt.bind(this)} />
             <Button
               label="DECRYPT"
-              onClick={this.handleToggle.bind(this)} />
+              onClick={this.handleCryptionDialog.bind(this)} />
           </CardActions>
           <CardText>
             <div>Your Passphrase - {this.state.passphrase}</div>
@@ -158,9 +173,9 @@ export default class App extends React.Component {
 
         <Dialog
           title="De/Encrypt"
-          active={this.state.dialogActive}
-          onEscKeyDown={this.handleToggle.bind(this)}
-          onOverlayClick={this.handleToggle.bind(this)}
+          active={this.state.cryptDialogActive}
+          onEscKeyDown={this.handleCryptionDialog.bind(this)}
+          onOverlayClick={this.handleCryptionDialog.bind(this)}
           actions={this.actions}>
           <Input
             type="text"
@@ -168,6 +183,15 @@ export default class App extends React.Component {
             name="encryptionString"
             value={this.state.encryptedString}
             required />
+        </Dialog>
+
+        <Dialog
+          title="Invalid Code"
+          active={this.state.errorDialogActive}
+          onEscKeyDown={this.handleErrorDialog.bind(this)}
+          onOverlayClick={this.handleErrorDialog.bind(this)}
+          actions={this.errorActions}>
+          <p>The code you have entered is either invalid or has expired</p>
         </Dialog>
       </div>
     );

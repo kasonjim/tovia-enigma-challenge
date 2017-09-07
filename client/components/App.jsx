@@ -5,8 +5,8 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 
-// **TODO** when typing in url /#12345, set the current state passphrase value to the URL
 // **TODO** copy passphrase upon click
+// **TODO** grab URL - see componentDidMount
 
 // **TODO** make sure linter is working
 // **TODO** fix up styling, do we even need our own css? or just use bootstrap?
@@ -28,6 +28,7 @@ export default class App extends React.Component {
     };
 
     this.pvalues = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
     this.actions = [
       { label: 'Cancel', onClick: this.handleCryptionDialog.bind(this) },
       { label: 'Decrypt', onClick: this.decrypt.bind(this) }
@@ -41,6 +42,9 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
+    // If there is a URL value passphrase, set that to this.state.passphrase
+    // Otherwise, generate a fresh passphrase
     this.generatePassphrase();
   }
 

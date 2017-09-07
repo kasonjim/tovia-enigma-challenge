@@ -21,7 +21,7 @@ exports.decrypt = (req, res) => {
 
   let data = decrypted.split(delimiter);
 
-  res.status(200).json({
+  res.status(201).json({
     name: data[0],
     message: data[1],
     date: data[2]

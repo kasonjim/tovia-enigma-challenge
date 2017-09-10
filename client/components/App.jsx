@@ -53,7 +53,13 @@ export default class App extends React.Component {
     // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
     // If there is a URL value passphrase, set that to this.state.passphrase
     // Otherwise, generate a fresh passphrase
-    this.generatePassphrase();
+    if (window.location.hash) {
+      this.setState({
+        passphrase: window.location.hash.replace('#','')
+      })
+    } else {
+      this.generatePassphrase();
+    }
   }
 
   handleCryptionDialog() {
@@ -115,6 +121,10 @@ export default class App extends React.Component {
   }
 
   decrypt() {
+    if (!this.state.encryptedString) {
+      return;
+    }
+
     fetch('/api/decrypt/' + this.state.passphrase, {
       method: 'POST',
       headers: {
@@ -144,7 +154,11 @@ export default class App extends React.Component {
         this.handleErrorDialog();
       }
     })
-    .catch( err => console.log('Decrypt error: ', err))
+    .catch( err => {
+      console.log('Decrypt error: ', err)
+      this.handleCryptionDialog();
+      this.handleErrorDialog();
+    })
   }
 
   generatePassphrase() {
@@ -224,9 +238,11 @@ export default class App extends React.Component {
           <Input
             type="text"
             label="Message"
-            name="encryptionString"
+            name="encryptedString"
             value={this.state.encryptedString}
-            required />
+            multiline
+            required
+            onChange={this.inputHandler.bind(this, 'encryptedString')} />
         </Dialog>
 
         <Dialog

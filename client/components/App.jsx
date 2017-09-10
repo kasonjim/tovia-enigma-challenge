@@ -12,8 +12,6 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 const TooltipLink = Tooltip(Link);
 
-// **TODO** when typing in url /#12345, set the current state passphrase value to the URL
-
 // **TODO** fix up styling
 //            * avatar should be on same line as name
 //            * move all "style" tags into classes in a separate CSS file?

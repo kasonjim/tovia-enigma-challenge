@@ -1,7 +1,7 @@
 {
   "name": "tovia-enigma-challenge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Jason Kim's submission for Tovia's Enigma coding challenge",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/server.js",
@@ -20,6 +20,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "react": "^15.6.1",
+    "react-copy-to-clipboard": "^5.0.0",
     "react-dom": "^15.6.1",
     "react-toolbox": "^2.0.0-beta.12"
   },

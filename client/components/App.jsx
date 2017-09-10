@@ -5,11 +5,19 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 
-// **TODO** when typing in url /#12345, set the current state passphrase value to the URL
-// **TODO** copy passphrase upon click
+import Tooltip from 'react-toolbox/lib/tooltip';
+import Link from 'react-toolbox/lib/link';
 
+import CopyToClipboard from 'react-copy-to-clipboard';
+
+const TooltipLink = Tooltip(Link);
+
+// **TODO** when typing in url /#12345, set the current state passphrase value to the URL
+
+// **TODO** fix up styling
+//            * avatar should be on same line as name
+//            * move all "style" tags into classes in a separate CSS file?
 // **TODO** make sure linter is working
-// **TODO** fix up styling, do we even need our own css? or just use bootstrap?
 // **TODO** separate into smaller components
 
 export default class App extends React.Component {
@@ -149,8 +157,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Card style={{width: '450px'}}>
+      <div style={{width: '350px'}}>
+
+        <Card style={{width: '100%'}}>
           <CardTitle
             title="Tovia's Enigma" />
           <CardText>
@@ -187,11 +196,20 @@ export default class App extends React.Component {
               label="DECRYPT"
               onClick={this.handleCryptionDialog.bind(this)} />
           </CardActions>
-          <CardText>
-            <div>Your Passphrase - {this.state.passphrase}</div>
-            <div><a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a></div>
-          </CardText>
+
         </Card>
+
+        <div style={{width: '100%', textAlign: 'center', fontFamily: 'Roboto, Helvetica, Arial, sans-serif', fontSize: '0.8em'}}>
+          <div style={{padding: '20px 5px 5px 5px'}}>
+            <span>Your Passphrase - </span>
+            <CopyToClipboard text={this.state.passphrase}>
+              <TooltipLink href="#" style={{display: 'inline'}} label={this.state.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} />
+            </CopyToClipboard>
+          </div>
+          <div style={{padding: '10px 5px'}}>
+            <a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a>
+          </div>
+        </div>
 
         <Dialog
           title="De/Encrypt"
@@ -224,6 +242,7 @@ export default class App extends React.Component {
           actions={this.incompleteActions}>
           <p>All fields in the form must be filled out before encrypting.</p>
         </Dialog>
+
       </div>
     );
   }

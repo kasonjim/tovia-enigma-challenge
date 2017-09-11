@@ -1,9 +1,8 @@
-import Form from './Form.js'
-import Passphrase from './Passphrase.js'
-import Dialogs from './Dialogs.js'
+import React from 'react';
 
-// **TODO** make sure linter is working
-// **TODO** setup grunt
+import Form from './Form.js';
+import Passphrase from './Passphrase.js';
+import Dialogs from './Dialogs.js';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,12 +26,16 @@ export default class App extends React.Component {
     // If there is a URL value passphrase, set that to this.state.passphrase
     // Otherwise, generate a fresh passphrase
     if (window.location.hash) {
-      this.setState({
-        passphrase: window.location.hash.replace('#','')
-      })
+      this.setPassphrase(window.location.hash.replace('#',''));
     } else {
       this.generatePassphrase();
     }
+  }
+
+  setPassphrase(passphrase) {
+    this.setState({
+      passphrase: passphrase
+    });
   }
 
   handleCryptionDialog() {
@@ -52,16 +55,16 @@ export default class App extends React.Component {
       [type]: value
     }, () => {
       // console.log('current state: ', this.state);
-    })
+    });
   }
 
   formValid() {
     if (this.state.name && this.state.message && this.state.date) {
       return true;
-    } else {
-      this.handleIncompleteDialog();
-      return false;
     }
+
+    this.handleIncompleteDialog();
+    return false;
   }
 
   encrypt() {

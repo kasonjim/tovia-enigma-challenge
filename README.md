@@ -10,6 +10,8 @@ Submission by Jason Kim
 3. In a separate terminal window, execute bundle command: `npm run bundle`
 4. Open in browser at specified port (default port: 1337). For example, `localhost:1337` or `127.0.0.1:1337`
 
+To run ESLint on the client files: `npm run lint`
+
 ## Usage
 
 Encryption
@@ -28,11 +30,12 @@ NOTE: Messages with invalid codes or expired dates will NOT be decrypted
 
 ## Resources / External Libraries
 
-[GIF Example](https://media.giphy.com/media/l0Iye9w3CFoz5rP2w/source.gif)  
-[React](https://facebook.github.io/react/docs/installation.html)  
-[Babel](http://babeljs.io/)  
-[Webpack](https://webpack.js.org/)  
-[React Toolbox](http://react-toolbox.com)  
-[Bootstrap 4](https://getbootstrap.com/)  
-[React Copy-to-Clipboard](https://github.com/nkbt/react-copy-to-clipboard)  
-[Crypto](https://nodejs.org/api/crypto.html) 
+[GIF Example](https://media.giphy.com/media/l0Iye9w3CFoz5rP2w/source.gif)
+[React](https://facebook.github.io/react/docs/installation.html)
+[Babel](http://babeljs.io/)
+[Webpack](https://webpack.js.org/)
+[React Toolbox](http://react-toolbox.com)
+[Bootstrap 4](https://getbootstrap.com/)
+[React Copy-to-Clipboard](https://github.com/nkbt/react-copy-to-clipboard)
+[Crypto](https://nodejs.org/api/crypto.html)
+[ESLint](https://eslint.org/)

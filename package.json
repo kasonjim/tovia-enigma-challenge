@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "bundle": "babel client -d compiled | webpack --config webpack.config.js --progress",
+    "lint": "node_modules/.bin/eslint client/**",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {

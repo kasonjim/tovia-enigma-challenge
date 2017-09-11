@@ -30,12 +30,12 @@ NOTE: Messages with invalid codes or expired dates will NOT be decrypted
 
 ## Resources / External Libraries
 
-[GIF Example](https://media.giphy.com/media/l0Iye9w3CFoz5rP2w/source.gif)
-[React](https://facebook.github.io/react/docs/installation.html)
-[Babel](http://babeljs.io/)
-[Webpack](https://webpack.js.org/)
-[React Toolbox](http://react-toolbox.com)
-[Bootstrap 4](https://getbootstrap.com/)
-[React Copy-to-Clipboard](https://github.com/nkbt/react-copy-to-clipboard)
-[Crypto](https://nodejs.org/api/crypto.html)
-[ESLint](https://eslint.org/)
+[GIF Example](https://media.giphy.com/media/l0Iye9w3CFoz5rP2w/source.gif)  
+[React](https://facebook.github.io/react/docs/installation.html)  
+[Babel](http://babeljs.io/)  
+[Webpack](https://webpack.js.org/)  
+[React Toolbox](http://react-toolbox.com)  
+[Bootstrap 4](https://getbootstrap.com/)  
+[React Copy-to-Clipboard](https://github.com/nkbt/react-copy-to-clipboard)  
+[Crypto](https://nodejs.org/api/crypto.html)  
+[ESLint](https://eslint.org/)  

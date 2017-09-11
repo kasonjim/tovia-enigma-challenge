@@ -17,7 +17,7 @@ export default class Passphrase extends React.Component {
           <div style={{padding: '20px 5px 5px 5px'}}>
             <span>Your Passphrase - </span>
             <CopyToClipboard text={this.props.passphrase}>
-              <TooltipLink href="#" style={{display: 'inline'}} label={this.props.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} />
+              <TooltipLink href="#" style={{display: 'inline'}} label={this.props.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} tooltipPosition='top' />
             </CopyToClipboard>
           </div>
           <div style={{padding: '10px 5px'}}>

@@ -12,11 +12,9 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 const TooltipLink = Tooltip(Link);
 
-// **TODO** fix up styling
-//            * avatar should be on same line as name
-//            * move all "style" tags into classes in a separate CSS file?
-// **TODO** make sure linter is working
 // **TODO** separate into smaller components
+// **TODO** make sure linter is working
+// **TODO** setup grunt
 
 export default class App extends React.Component {
   constructor(props) {
@@ -173,93 +171,101 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div style={{width: '350px'}}>
+      <div className="row justify-content-around" style={{fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} >
 
-        <Card style={{width: '100%'}}>
-          <CardTitle
-            title="Tovia's Enigma" />
-          <CardText>
-            <Avatar title={this.state.name || '?'} />
-            <Input
-              type="text"
-              label="Name"
-              name="name"
-              value={this.state.name}
-              required
-              onChange={this.inputHandler.bind(this, 'name')} />
+        <div style={{width: '350px', margin: '10px'}}>
+          <Card>
+            <CardTitle
+              title="Tovia's Enigma" />
+            <CardText>
+              <div className="row align-items-center">
+                <div className="col-2">
+                  <Avatar title={this.state.name || '?'} />
+                </div>
+                <div className="col-8">
+                  <Input
+                    type="text"
+                    label="Name"
+                    name="name"
+                    value={this.state.name}
+                    required
+                    onChange={this.inputHandler.bind(this, 'name')} />
+                </div>
+              </div>
+              <Input
+                type="text"
+                label="Message"
+                name="message"
+                value={this.state.message}
+                maxLength={120}
+                multiline
+                required
+                onChange={this.inputHandler.bind(this, 'message')} />
+              <DatePicker
+                label="Expiration Date"
+                name="date"
+                value={this.state.date}
+                required
+                sundayFirstDayOfWeek
+                onChange={this.inputHandler.bind(this, 'date')} />
+            </CardText>
+            <CardActions>
+              <Button
+                label="ENCRYPT"
+                onClick={this.encrypt.bind(this)} />
+              <Button
+                label="DECRYPT"
+                onClick={this.handleCryptionDialog.bind(this)} />
+            </CardActions>
+
+          </Card>
+
+          <div className="row justify-content-around">
+            <div style={{padding: '20px 5px 5px 5px'}}>
+              <span>Your Passphrase - </span>
+              <CopyToClipboard text={this.state.passphrase}>
+                <TooltipLink href="#" style={{display: 'inline'}} label={this.state.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} />
+              </CopyToClipboard>
+            </div>
+            <div style={{padding: '10px 5px'}}>
+              <a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a>
+            </div>
+          </div>
+
+          <Dialog
+            title="De/Encrypt"
+            active={this.state.cryptDialogActive}
+            onEscKeyDown={this.handleCryptionDialog.bind(this)}
+            onOverlayClick={this.handleCryptionDialog.bind(this)}
+            actions={this.actions}>
             <Input
               type="text"
               label="Message"
-              name="message"
-              value={this.state.message}
-              maxLength={120}
+              name="encryptedString"
+              value={this.state.encryptedString}
               multiline
               required
-              onChange={this.inputHandler.bind(this, 'message')} />
-            <DatePicker
-              label="Expiration Date"
-              name="date"
-              value={this.state.date}
-              required
-              sundayFirstDayOfWeek
-              onChange={this.inputHandler.bind(this, 'date')} />
-          </CardText>
-          <CardActions>
-            <Button
-              label="ENCRYPT"
-              onClick={this.encrypt.bind(this)} />
-            <Button
-              label="DECRYPT"
-              onClick={this.handleCryptionDialog.bind(this)} />
-          </CardActions>
+              onChange={this.inputHandler.bind(this, 'encryptedString')} />
+          </Dialog>
 
-        </Card>
+          <Dialog
+            title="Invalid Code"
+            active={this.state.errorDialogActive}
+            onEscKeyDown={this.handleErrorDialog.bind(this)}
+            onOverlayClick={this.handleErrorDialog.bind(this)}
+            actions={this.errorActions}>
+            <p>The code you have entered is either invalid or has expired</p>
+          </Dialog>
 
-        <div style={{width: '100%', textAlign: 'center', fontFamily: 'Roboto, Helvetica, Arial, sans-serif', fontSize: '0.8em'}}>
-          <div style={{padding: '20px 5px 5px 5px'}}>
-            <span>Your Passphrase - </span>
-            <CopyToClipboard text={this.state.passphrase}>
-              <TooltipLink href="#" style={{display: 'inline'}} label={this.state.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} />
-            </CopyToClipboard>
-          </div>
-          <div style={{padding: '10px 5px'}}>
-            <a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a>
-          </div>
+          <Dialog
+            title="Invalid Form"
+            active={this.state.incompleteDialogActive}
+            onEscKeyDown={this.handleIncompleteDialog.bind(this)}
+            onOverlayClick={this.handleIncompleteDialog.bind(this)}
+            actions={this.incompleteActions}>
+            <p>All fields in the form must be filled out before encrypting.</p>
+          </Dialog>
         </div>
-
-        <Dialog
-          title="De/Encrypt"
-          active={this.state.cryptDialogActive}
-          onEscKeyDown={this.handleCryptionDialog.bind(this)}
-          onOverlayClick={this.handleCryptionDialog.bind(this)}
-          actions={this.actions}>
-          <Input
-            type="text"
-            label="Message"
-            name="encryptedString"
-            value={this.state.encryptedString}
-            multiline
-            required
-            onChange={this.inputHandler.bind(this, 'encryptedString')} />
-        </Dialog>
-
-        <Dialog
-          title="Invalid Code"
-          active={this.state.errorDialogActive}
-          onEscKeyDown={this.handleErrorDialog.bind(this)}
-          onOverlayClick={this.handleErrorDialog.bind(this)}
-          actions={this.errorActions}>
-          <p>The code you have entered is either invalid or has expired</p>
-        </Dialog>
-
-        <Dialog
-          title="Invalid Form"
-          active={this.state.incompleteDialogActive}
-          onEscKeyDown={this.handleIncompleteDialog.bind(this)}
-          onOverlayClick={this.handleIncompleteDialog.bind(this)}
-          actions={this.incompleteActions}>
-          <p>All fields in the form must be filled out before encrypting.</p>
-        </Dialog>
 
       </div>
     );

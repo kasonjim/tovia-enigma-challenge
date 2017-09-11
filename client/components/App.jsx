@@ -2,7 +2,6 @@ import Form from './Form.js'
 import Passphrase from './Passphrase.js'
 import Dialogs from './Dialogs.js'
 
-// **TODO** separate into smaller components
 // **TODO** make sure linter is working
 // **TODO** setup grunt
 
@@ -25,7 +24,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    // **TODO** when typing in url /#12345, set the current state passphrase value to the URL
     // If there is a URL value passphrase, set that to this.state.passphrase
     // Otherwise, generate a fresh passphrase
     if (window.location.hash) {
@@ -92,7 +90,10 @@ export default class App extends React.Component {
         // console.log('current state: ', this.state);
       })
     })
-    .catch( err => console.log('Encrypt error: ', err))
+    .catch( err => {
+      // Log error if issue with encrypting
+      // console.log('Encrypt error: ', err)
+    })
   }
 
   decrypt() {
@@ -130,7 +131,7 @@ export default class App extends React.Component {
       }
     })
     .catch( err => {
-      console.log('Decrypt error: ', err)
+      // console.log('Decrypt error: ', err)
       this.handleCryptionDialog();
       this.handleErrorDialog();
     })

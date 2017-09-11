@@ -1,16 +1,6 @@
-import { Card, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
-import Avatar from 'react-toolbox/lib/avatar';
-import Input from 'react-toolbox/lib/input';
-import DatePicker from 'react-toolbox/lib/date_picker';
-import { Button } from 'react-toolbox/lib/button';
-import Dialog from 'react-toolbox/lib/dialog';
-
-import Tooltip from 'react-toolbox/lib/tooltip';
-import Link from 'react-toolbox/lib/link';
-
-import CopyToClipboard from 'react-copy-to-clipboard';
-
-const TooltipLink = Tooltip(Link);
+import Form from './Form.js'
+import Passphrase from './Passphrase.js'
+import Dialogs from './Dialogs.js'
 
 // **TODO** separate into smaller components
 // **TODO** make sure linter is working
@@ -32,17 +22,6 @@ export default class App extends React.Component {
     };
 
     this.pvalues = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    this.actions = [
-      { label: 'Cancel', onClick: this.handleCryptionDialog.bind(this) },
-      { label: 'Decrypt', onClick: this.decrypt.bind(this) }
-    ];
-    this.errorActions = [
-      { label: 'Close', onClick: this.handleErrorDialog.bind(this) }
-    ];
-    this.incompleteActions = [
-      { label: 'Close', onClick: this.handleIncompleteDialog.bind(this) }
-    ];
   }
 
   componentDidMount() {
@@ -174,97 +153,32 @@ export default class App extends React.Component {
       <div className="row justify-content-around" style={{fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} >
 
         <div style={{width: '350px', margin: '10px'}}>
-          <Card>
-            <CardTitle
-              title="Tovia's Enigma" />
-            <CardText>
-              <div className="row align-items-center">
-                <div className="col-2">
-                  <Avatar title={this.state.name || '?'} />
-                </div>
-                <div className="col-8">
-                  <Input
-                    type="text"
-                    label="Name"
-                    name="name"
-                    value={this.state.name}
-                    required
-                    onChange={this.inputHandler.bind(this, 'name')} />
-                </div>
-              </div>
-              <Input
-                type="text"
-                label="Message"
-                name="message"
-                value={this.state.message}
-                maxLength={120}
-                multiline
-                required
-                onChange={this.inputHandler.bind(this, 'message')} />
-              <DatePicker
-                label="Expiration Date"
-                name="date"
-                value={this.state.date}
-                required
-                sundayFirstDayOfWeek
-                onChange={this.inputHandler.bind(this, 'date')} />
-            </CardText>
-            <CardActions>
-              <Button
-                label="ENCRYPT"
-                onClick={this.encrypt.bind(this)} />
-              <Button
-                label="DECRYPT"
-                onClick={this.handleCryptionDialog.bind(this)} />
-            </CardActions>
+          <Form
+            name={this.state.name}
+            message={this.state.message}
+            date={this.state.date}
+            encryptedString={this.state.encryptedString}
+            nameHandler={this.inputHandler.bind(this, 'name')}
+            messageHandler={this.inputHandler.bind(this, 'message')}
+            dateHandler={this.inputHandler.bind(this, 'date')}
+            encrypt={this.encrypt.bind(this)}
+            handleCryptionDialog={this.handleCryptionDialog.bind(this)} />
 
-          </Card>
+          <Passphrase
+            passphrase={this.state.passphrase}
+            generatePassphrase={this.generatePassphrase.bind(this)} />
 
-          <div className="row justify-content-around">
-            <div style={{padding: '20px 5px 5px 5px'}}>
-              <span>Your Passphrase - </span>
-              <CopyToClipboard text={this.state.passphrase}>
-                <TooltipLink href="#" style={{display: 'inline'}} label={this.state.passphrase} tooltip='Click to copy to clipboard' tooltipHideOnClick={true} />
-              </CopyToClipboard>
-            </div>
-            <div style={{padding: '10px 5px'}}>
-              <a href="#" onClick={this.generatePassphrase.bind(this)}>Generate new Passphrase</a>
-            </div>
-          </div>
+          <Dialogs
+            decrypt={this.decrypt.bind(this)}
+            encryptedString={this.state.encryptedString}
+            encryptedStringHandler={this.inputHandler.bind(this, 'encryptedString')}
+            cryptDialogActive={this.state.cryptDialogActive}
+            errorDialogActive={this.state.errorDialogActive}
+            incompleteDialogActive={this.state.incompleteDialogActive}
+            handleCryptionDialog={this.handleCryptionDialog.bind(this)}
+            handleErrorDialog={this.handleErrorDialog.bind(this)}
+            handleIncompleteDialog={this.handleIncompleteDialog.bind(this)} />
 
-          <Dialog
-            title="De/Encrypt"
-            active={this.state.cryptDialogActive}
-            onEscKeyDown={this.handleCryptionDialog.bind(this)}
-            onOverlayClick={this.handleCryptionDialog.bind(this)}
-            actions={this.actions}>
-            <Input
-              type="text"
-              label="Message"
-              name="encryptedString"
-              value={this.state.encryptedString}
-              multiline
-              required
-              onChange={this.inputHandler.bind(this, 'encryptedString')} />
-          </Dialog>
-
-          <Dialog
-            title="Invalid Code"
-            active={this.state.errorDialogActive}
-            onEscKeyDown={this.handleErrorDialog.bind(this)}
-            onOverlayClick={this.handleErrorDialog.bind(this)}
-            actions={this.errorActions}>
-            <p>The code you have entered is either invalid or has expired</p>
-          </Dialog>
-
-          <Dialog
-            title="Invalid Form"
-            active={this.state.incompleteDialogActive}
-            onEscKeyDown={this.handleIncompleteDialog.bind(this)}
-            onOverlayClick={this.handleIncompleteDialog.bind(this)}
-            actions={this.incompleteActions}>
-            <p>All fields in the form must be filled out before encrypting.</p>
-          </Dialog>
         </div>
 
       </div>
